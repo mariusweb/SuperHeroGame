@@ -6,14 +6,16 @@
     "2": "I'd be born with them.",
     "3": "They would be a gift someone trusted me with.",
     "4": "I (or a scientist friend) would invent something to give me powers.",
-    "5": "I would train myself until I had all the skills I needed."
+    "5": "I would train myself until I had all the skills I needed.",
+    "id": "1"
   },
   {
     "img": "IMG/gender-min.jpg",
     "question": "Would you be male or female?",
     "1": "I'd be male.",
     "2": "I'd be female.",
-    "3": "I don't care. Gender doesn't matter for a superhero."
+    "3": "I don't care. Gender doesn't matter for a superhero.",
+    "id": "2"
   },
   {
     "img": "IMG/colors-min.jpg",
@@ -22,7 +24,8 @@
     "2": "Bright colors, or metallic silver and gold. Something dramatic and inspiring.",
     "3": "Earth tones like green, grey or brown. Something that blends in with the nature.",
     "4": "Why limit myself? I'll wear whatever I feel like at the moment.",
-    "5": "As long as it's all one color, I'm good."
+    "5": "As long as it's all one color, I'm good.",
+    "id": "3"
   },
   {
     "img": "IMG/flying-min.jpg",
@@ -30,7 +33,8 @@
     "1": "Of course! That's the best part of being a superhero.",
     "2": "No, but I'd have a really cool vehicle.",
     "3": "No, but I'd have another power I use to get around.",
-    "4": "No. I'd mostly get around by running and acrobatics."
+    "4": "No. I'd mostly get around by running and acrobatics.",
+    "id": "4"
   },
   {
     "img": "IMG/super-strength-min.jpg",
@@ -38,7 +42,8 @@
     "1": "Yes. Strength would be my big thing.",
     "2": "Yes, but it would just be one of my powers.",
     "3": "No, but I'd have other superpowers.",
-    "4": "No, but skills and intelligence beat strength any day."
+    "4": "No, but skills and intelligence beat strength any day.",
+    "id": "5"
   },
   {
     "img": "IMG/motyvation-min.jpg",
@@ -47,7 +52,8 @@
     "2": "I suffered a tragedy and want to save others from new tragedies.",
     "3": "Because being a hero is exciting and cool.",
     "4": "I'm really not interested in being a hero, I'd rather be left alone, but I keep getting pulled into situations.",
-    "5": "To atone for my the terrible things I did in the past."
+    "5": "To atone for my the terrible things I did in the past.",
+    "id": "6"
   },
   {
     "img": "IMG/power-source-min.jpg",
@@ -55,7 +61,8 @@
     "1": "Magic!",
     "2": "Science and technology.",
     "3": "Harmony with nature.",
-    "4": "Developing my skills to the highest level."
+    "4": "Developing my skills to the highest level.",
+    "id": "7"
   },
   {
     "img": "IMG/weapons-min.jpg",
@@ -63,7 +70,8 @@
     "1": "No, I prefer to rely on my own abilities.",
     "2": "Yes, I'd have lots of gadgets.",
     "3": "Yes, I'd have one, but I would still have powers, even if I lost it.",
-    "4": "I'd have one special tool and I'd be powerless without it."
+    "4": "I'd have one special tool and I'd be powerless without it.",
+    "id": "8"
   },
   {
     "img": "IMG/hurt-min.jpg",
@@ -72,7 +80,8 @@
     "2": "I'd be pretty much invulnerable to harm.",
     "3": "My powers would make it almost impossible for anyone to touch or catch me unless I let them.",
     "4": "I'd have some sort of armor or shield to protect me.",
-    "5": "I'd use my stealth and agility to stay out of harm's way."
+    "5": "I'd use my stealth and agility to stay out of harm's way.",
+    "id": "9"
   },
   {
     "img": "IMG/law-min.jpg",
@@ -81,7 +90,8 @@
     "2": "I'd be a good citizen and stop lawbreakers, but a lot of people would think I was an outlaw despite that.",
     "3": "I'd be basically a good person, but breaking the rules is a lot of fun.",
     "4": "Following the law and doing the right thing aren't always the same. I'll break the law if I think it's wrong.",
-    "5": "Yes, I'd have a criminal past but have reformed."
+    "5": "Yes, I'd have a criminal past but have reformed.",
+    "id": "10"
   },
   {
     "img": "IMG/secret-min.jpg",
@@ -89,7 +99,8 @@
     "1": "Yes, it would give my enemies too much of an advantage if people knew who I really was.",
     "2": "Yes, but it wouldn't be a big deal if people found out who I was.",
     "3": "No, my superhero identity would be my only identity.",
-    "4": "No, I don't see the point in having a secret identity."
+    "4": "No, I don't see the point in having a secret identity.",
+    "id": "11"
   },
   {
     "img": "IMG/battle-min.jpg",
@@ -97,7 +108,8 @@
     "1": "I'd like to get up close and overpower them.",
     "2": "I'd like to hang back and zap them from long range.",
     "3": "I'd like to out-think and out-maneuver them.",
-    "4": "I believe in peaceful solutions and would only fight if there was no choice."
+    "4": "I believe in peaceful solutions and would only fight if there was no choice.",
+    "id": "12"
   },
   {
     "img": "IMG/attitude-min.jpg",
@@ -105,7 +117,8 @@
     "1": "Calm and professional.",
     "2": "Dark and mysterious.",
     "3": "Angry.",
-    "4": "I like to keep it light with jokes and clever banter."
+    "4": "I like to keep it light with jokes and clever banter.",
+    "id": "13"
   },
   {
     "img": "IMG/team-min.jpg",
@@ -113,7 +126,8 @@
     "1": "I prefer working on a team.",
     "2": "I can work on a team, as long as I'm in charge.",
     "3": "Teams are too big. I like working with one or two partners.",
-    "4": "I work best on my own."
+    "4": "I work best on my own.",
+    "id": "14"
   },
   {
     "img": "IMG/home-min.jpg",
@@ -121,7 +135,8 @@
     "1": "An ordinary house or apartment.",
     "2": "A luxurious mansion or penthouse apartment.",
     "3": "A dormitory or estate where I live with other members of my team.",
-    "4": "I wander a lot and don't really have a home."
+    "4": "I wander a lot and don't really have a home.",
+    "id": "15"
   },
   {
     "img": "IMG/love-min.jpg",
@@ -130,6 +145,7 @@
     "2": "I would date a lot and not have anyone special.",
     "3": "There would be a special person but... it would be complicated.",
     "4": "Even if I were interested in dating, who has the time?",
-    "5": "I fall in love a lot, but it never works out."
+    "5": "I fall in love a lot, but it never works out.",
+    "id": "16"
   }
 ]

@@ -62,15 +62,21 @@
     getQuestions().then((arrayOfQuestions) => {
       arrayOfQuestions.map((question) => {
         let answersInQuestion = Object.keys(question).length - 2;
-        // Cia paskutinis
+
         for (let [key, value] of Object.entries(question)) {
-          if (key !== "question" || `${key}` !== "img") {
-            console.log(`${key}: ${value}`);
+          if (key == "question" || `${key}` == "img") {
+            // console.log(`${key}: ${value}`);
+          } else {
+            console.log(`${key}: `);
           }
         }
-        let radioOptionAnswer = console.log(answersInQuestion);
-        console.log(question);
-        // console.log(Object.keys(question).length);
+        // for (let key in question) {
+        //   if (key == "question" || key == "img") {
+        //     console.log(`${key}: `);
+        //   } else {
+        //     console.log(`${key}: `);
+        //   }
+        // }
       });
     });
   }
