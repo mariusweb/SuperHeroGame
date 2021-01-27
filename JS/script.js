@@ -17,6 +17,7 @@
     };
   }
   let startTheGame = new ButtonCreate("Start the game");
+  let playAgain = new ButtonCreate("Play again");
 
   function CreateRadio(id, value, answer, questionNumber) {
     this.questionNumber = questionNumber;
@@ -65,7 +66,14 @@
       return this.h3;
     };
     this.finishImg = function () {
-      this.img.classList.add(`img-${this.id}`);
+      this.img.classList.add(
+        `img-${this.id}`,
+        `img-thumbnail`,
+        `rounded`,
+        `d-block`,
+        `mx-auto`,
+        `w-50`
+      );
       this.img.setAttribute("src", `${this.imageSorc}`);
       this.img.setAttribute("alt", `${this.id}`);
       return this.img;
@@ -107,7 +115,7 @@
   // Add questions and heros from api to localstorage
   let redyQuestions;
   let redyHeros;
-  // function storeApiToLocalstorage() {
+
   getQuestions().then((arrayOfQuestions) => {
     localStorage.setItem(`question`, JSON.stringify(arrayOfQuestions));
   });
@@ -116,8 +124,6 @@
     localStorage.setItem(`heros`, JSON.stringify(arrayOfHeros));
   });
   redyHeros = JSON.parse(localStorage.getItem(`heros`));
-  // }
-  // storeApiToLocalstorage();
 
   let finalyQuestionsArr = [];
 
@@ -135,8 +141,8 @@
           questionWithAnswers.question,
           questionWithAnswers.img
         );
-        // localStorage.clear();
         formGroup.prepend(newH3AndImg.finishH3());
+        formGroup.prepend(newH3AndImg.finishImg());
         for (let [key, value] of Object.entries(questionWithAnswers)) {
           let newRadio;
           let divForRadio;
@@ -171,7 +177,9 @@
         document
           .querySelector(`.question-${+questionWithAnswers.id - 1}`)
           .remove();
+        document.querySelector(`.img-${+questionWithAnswers.id - 1}`).remove();
         formGroup.prepend(newH3AndImg.finishH3());
+        formGroup.prepend(newH3AndImg.finishImg());
         for (let [key, value] of Object.entries(questionWithAnswers)) {
           let newRadio;
           let divForRadio;
@@ -212,11 +220,20 @@
           `.next-${+questionWithAnswers.id}`
         );
         remuveNextClass.classList.remove(`next-${+questionWithAnswers.id - 1}`);
+        console.log(finalyQuestionsArr);
       } else if (+invok == 16 && side == "answer") {
         if (+invok == +questionWithAnswers.id) {
           formGroup.innerHTML = "";
-          console.log(finalyQuestionsArr);
-          printTheHero(finalyQuestionsArr);
+          let myHero = printTheHero(finalyQuestionsArr);
+
+          newH3AndImg = new CreateH3AndImgTag(
+            myHero.id,
+            myHero.name,
+            myHero.img
+          );
+          formGroup.prepend(newH3AndImg.finishImg());
+          formGroup.prepend(newH3AndImg.finishH3());
+          formGroup.appendChild(playAgain.finishButton("start"));
         }
       }
     });
@@ -226,6 +243,12 @@
   startButton.addEventListener("click", (e) => {
     e.preventDefault();
     createQuiz(startButton.value, "start");
+    redyHeros.map((heroObject) => {
+      if (document.querySelector(`.img-${heroObject.id}`)) {
+        document.querySelector(`.img-${heroObject.id}`).remove();
+        document.querySelector(`.question-${heroObject.id}`).remove();
+      }
+    });
     startButton.remove();
     answersToQuestions();
 
@@ -286,42 +309,75 @@
       }
     });
   }
-  let exapleArray = [
-    "1-5",
-    "2-2",
-    "3-2",
-    "4-3",
-    "5-1",
-    "6-4",
-    "7-1",
-    "8-4",
-    "9-3",
-    "10-1",
-    "11-3",
-    "12-2",
-    "13-1",
-    "14-3",
-    "15-2",
-    "16-1",
-  ];
+
   function printTheHero(arrayOfAnswers) {
     let isTrue;
     let countTrue;
-    redyHeros.map((heroObject) => {
-      isTrue = Object.entries(heroObject).map(([key, value]) => {
-        if (Array.isArray(value)) {
-          return value.some((heroAnswer) =>
-            arrayOfAnswers.includes(heroAnswer)
-          );
-        } else {
-          return value;
-        }
-      });
+    let checkLength = 0;
+    let isMale = arrayOfAnswers.some(
+      (answerToQuestion) => answerToQuestion == "2-1"
+    );
 
+    let isFemale = arrayOfAnswers.some(
+      (answerToQuestion) => answerToQuestion == "2-2"
+    );
+    let both = arrayOfAnswers.some(
+      (answerToQuestion) => answerToQuestion == "2-3"
+    );
+    let maleHeros;
+    let femaleHeros;
+    let bothHeros;
+    let theHeroIs = redyHeros.filter((heroObject) => {
+      if (isMale) {
+        maleHeros = heroObject.gender;
+        isTrue = Object.entries(heroObject).map(([key, value]) => {
+          if (
+            Array.isArray(value) &&
+            maleHeros.some((checkIfMale) => checkIfMale == "2-1")
+          ) {
+            return value.some((heroAnswer) =>
+              arrayOfAnswers.includes(heroAnswer)
+            );
+          } else if (!Array.isArray(value)) {
+            return value;
+          }
+        });
+      } else if (isFemale) {
+        femaleHeros = heroObject.gender;
+        isTrue = Object.entries(heroObject).map(([key, value]) => {
+          if (
+            Array.isArray(value) &&
+            femaleHeros.some((checkIfFemale) => checkIfFemale == "2-2")
+          ) {
+            return value.some((heroAnswer) =>
+              arrayOfAnswers.includes(heroAnswer)
+            );
+          } else if (!Array.isArray(value)) {
+            return value;
+          }
+        });
+      } else if (both) {
+        bothHeros = heroObject.gender;
+        isTrue = Object.entries(heroObject).map(([key, value]) => {
+          if (
+            Array.isArray(value) &&
+            bothHeros.some((checkIfBoth) => checkIfBoth == "2-2")
+          ) {
+            return value.some((heroAnswer) =>
+              arrayOfAnswers.includes(heroAnswer)
+            );
+          } else if (!Array.isArray(value)) {
+            return value;
+          }
+        });
+      }
       countTrue = isTrue.filter((valueBollen) => valueBollen == true).length;
-      console.log(countTrue);
+      if (countTrue > checkLength) {
+        checkLength = countTrue;
+        return isTrue;
+      }
     });
+    return theHeroIs.slice(-1)[0];
   }
-  printTheHero(exapleArray);
   window.addEventListener("DOMContentLoaded", (e) => {});
 })();
