@@ -104,23 +104,27 @@
     error.message;
   });
 
-  // Add questions from api to localstorage
-
-  function storeApiToLocalstorage() {
-    getQuestions().then((arrayOfQuestions) => {
-      localStorage.setItem(`question`, JSON.stringify(arrayOfQuestions));
-    });
-  }
-  storeApiToLocalstorage();
+  // Add questions and heros from api to localstorage
+  let redyQuestions;
+  let redyHeros;
+  // function storeApiToLocalstorage() {
+  getQuestions().then((arrayOfQuestions) => {
+    localStorage.setItem(`question`, JSON.stringify(arrayOfQuestions));
+  });
+  redyQuestions = JSON.parse(localStorage.getItem(`question`));
+  getHeros().then((arrayOfHeros) => {
+    localStorage.setItem(`heros`, JSON.stringify(arrayOfHeros));
+  });
+  redyHeros = JSON.parse(localStorage.getItem(`heros`));
+  // }
+  // storeApiToLocalstorage();
 
   let finalyQuestionsArr = [];
-  let redyQuestions = JSON.parse(localStorage.getItem(`question`));
 
   formGroup.appendChild(startTheGame.finishButton("start"));
   let nextQuestion = new ButtonCreate("Next");
   let startButton = document.querySelector(".start");
 
-  console.log();
   function createQuiz(invok, side) {
     let arrOfNumbersRadio = [1, 2, 3, 4, 5];
     redyQuestions.map((questionWithAnswers) => {
@@ -131,8 +135,8 @@
           questionWithAnswers.question,
           questionWithAnswers.img
         );
+        // localStorage.clear();
         formGroup.prepend(newH3AndImg.finishH3());
-
         for (let [key, value] of Object.entries(questionWithAnswers)) {
           let newRadio;
           let divForRadio;
@@ -168,7 +172,6 @@
           .querySelector(`.question-${+questionWithAnswers.id - 1}`)
           .remove();
         formGroup.prepend(newH3AndImg.finishH3());
-
         for (let [key, value] of Object.entries(questionWithAnswers)) {
           let newRadio;
           let divForRadio;
@@ -210,12 +213,13 @@
         );
         remuveNextClass.classList.remove(`next-${+questionWithAnswers.id - 1}`);
       } else if (+invok == 16 && side == "answer") {
-        formGroup.innerHTML = "";
+        if (+invok == +questionWithAnswers.id) {
+          formGroup.innerHTML = "";
+          console.log(finalyQuestionsArr);
+          printTheHero(finalyQuestionsArr);
+        }
       }
     });
-
-    console.log(+invok);
-    console.log(side);
   }
 
   let nextButton;
@@ -281,9 +285,43 @@
         };
       }
     });
-
-    console.log(finalyQuestionsArr);
   }
+  let exapleArray = [
+    "1-5",
+    "2-2",
+    "3-2",
+    "4-3",
+    "5-1",
+    "6-4",
+    "7-1",
+    "8-4",
+    "9-3",
+    "10-1",
+    "11-3",
+    "12-2",
+    "13-1",
+    "14-3",
+    "15-2",
+    "16-1",
+  ];
+  function printTheHero(arrayOfAnswers) {
+    let isTrue;
+    let countTrue;
+    redyHeros.map((heroObject) => {
+      isTrue = Object.entries(heroObject).map(([key, value]) => {
+        if (Array.isArray(value)) {
+          return value.some((heroAnswer) =>
+            arrayOfAnswers.includes(heroAnswer)
+          );
+        } else {
+          return value;
+        }
+      });
 
+      countTrue = isTrue.filter((valueBollen) => valueBollen == true).length;
+      console.log(countTrue);
+    });
+  }
+  printTheHero(exapleArray);
   window.addEventListener("DOMContentLoaded", (e) => {});
 })();
