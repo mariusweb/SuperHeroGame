@@ -373,7 +373,7 @@
             isTrue = Object.entries(heroObject).map(([key, value]) => {
               if (
                 Array.isArray(value) &&
-                bothHeros.some((checkIfBoth) => checkIfBoth == "2-2")
+                bothHeros.some((checkIfBoth) => checkIfBoth == "2-3")
               ) {
                 return value.some((heroAnswer) =>
                   arrayOfAnswers.includes(heroAnswer)

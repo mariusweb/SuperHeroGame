@@ -169,7 +169,7 @@
   },
   {
     "name": "Iron Man",
-    "fly": ["4-2"],
+    "fly": ["4-1"],
     "powers": ["5-4"],
     "secret": ["11-3"],
     "livingHome": ["15-2"],
