@@ -102,6 +102,7 @@
       throw new Error(message);
     }
     let data = await response.json();
+
     return data;
   }
 
@@ -111,273 +112,287 @@
   getHeros().catch((error) => {
     error.message;
   });
+  const redyQuestionsNew = async () => {
+    const question = await getQuestions();
 
-  // Add questions and heros from api to localstorage
-  let redyQuestions;
-  let redyHeros;
+    return question;
+  };
+  const redyHerosNew = async () => {
+    const heros = await getHeros();
 
-  getQuestions().then((arrayOfQuestions) => {
-    localStorage.setItem(`question`, JSON.stringify(arrayOfQuestions));
-  });
-  redyQuestions = JSON.parse(localStorage.getItem(`question`));
-  getHeros().then((arrayOfHeros) => {
-    localStorage.setItem(`heros`, JSON.stringify(arrayOfHeros));
-  });
-  redyHeros = JSON.parse(localStorage.getItem(`heros`));
+    return heros;
+  };
 
   let finalyQuestionsArr = [];
+  redyQuestionsNew().then((redyQuestions) => {
+    redyHerosNew().then((redyHeros) => {
+      formGroup.appendChild(startTheGame.finishButton("start"));
+      let nextQuestion = new ButtonCreate("Next");
+      let startButton = document.querySelector(".start");
+      function createQuiz(invok, side) {
+        let arrOfNumbersRadio = [1, 2, 3, 4, 5];
 
-  formGroup.appendChild(startTheGame.finishButton("start"));
-  let nextQuestion = new ButtonCreate("Next");
-  let startButton = document.querySelector(".start");
-
-  function createQuiz(invok, side) {
-    let arrOfNumbersRadio = [1, 2, 3, 4, 5];
-    redyQuestions.map((questionWithAnswers) => {
-      let newH3AndImg;
-      if (invok == "Start the game" && questionWithAnswers.id == 1) {
-        newH3AndImg = new CreateH3AndImgTag(
-          questionWithAnswers.id,
-          questionWithAnswers.question,
-          questionWithAnswers.img
-        );
-        formGroup.prepend(newH3AndImg.finishH3());
-        formGroup.prepend(newH3AndImg.finishImg());
-        for (let [key, value] of Object.entries(questionWithAnswers)) {
-          let newRadio;
-          let divForRadio;
-          if (!(key == "question" || key == "img" || key == "id")) {
-            newRadio = new CreateRadio(
-              `${questionWithAnswers.id}-${key}`,
-              `${questionWithAnswers.id}-${key}`,
-              value,
-              questionWithAnswers.id
+        redyQuestions.map((questionWithAnswers) => {
+          let newH3AndImg;
+          if (invok == "Start the game" && questionWithAnswers.id == 1) {
+            newH3AndImg = new CreateH3AndImgTag(
+              questionWithAnswers.id,
+              questionWithAnswers.question,
+              questionWithAnswers.img
             );
-            formGroup.appendChild(
-              newRadio.finishDivForRadio(`div-${questionWithAnswers.id}-${key}`)
-            );
-            divForRadio = document.querySelector(
-              `.div-${questionWithAnswers.id}-${key}`
-            );
-            divForRadio.appendChild(newRadio.finishRadio());
-            divForRadio.appendChild(newRadio.finishLabel());
-          }
-        }
-
-        formGroup.appendChild(
-          nextQuestion.finishButton(`next-${questionWithAnswers.id}`)
-        );
-      } else if (+invok == questionWithAnswers.id && side == "next") {
-        newH3AndImg = new CreateH3AndImgTag(
-          questionWithAnswers.id,
-          questionWithAnswers.question,
-          questionWithAnswers.img
-        );
-
-        document
-          .querySelector(`.question-${+questionWithAnswers.id - 1}`)
-          .remove();
-        document.querySelector(`.img-${+questionWithAnswers.id - 1}`).remove();
-        formGroup.prepend(newH3AndImg.finishH3());
-        formGroup.prepend(newH3AndImg.finishImg());
-        for (let [key, value] of Object.entries(questionWithAnswers)) {
-          let newRadio;
-          let divForRadio;
-          if (!(key == "question" || key == "img" || key == "id")) {
-            newRadio = new CreateRadio(
-              `${+questionWithAnswers.id}-${key}`,
-              `${+questionWithAnswers.id}-${key}`,
-              value,
-              questionWithAnswers.id
-            );
-            arrOfNumbersRadio.forEach((numberRadio) => {
-              let isSelected = document.querySelector(
-                `.div-${+questionWithAnswers.id - 1}-${numberRadio}`
-              );
-              if (isSelected) {
-                isSelected.remove();
+            // localStorage.clear();
+            formGroup.prepend(newH3AndImg.finishH3());
+            formGroup.prepend(newH3AndImg.finishImg());
+            for (let [key, value] of Object.entries(questionWithAnswers)) {
+              let newRadio;
+              let divForRadio;
+              if (!(key == "question" || key == "img" || key == "id")) {
+                newRadio = new CreateRadio(
+                  `${questionWithAnswers.id}-${key}`,
+                  `${questionWithAnswers.id}-${key}`,
+                  value,
+                  questionWithAnswers.id
+                );
+                formGroup.appendChild(
+                  newRadio.finishDivForRadio(
+                    `div-${questionWithAnswers.id}-${key}`
+                  )
+                );
+                divForRadio = document.querySelector(
+                  `.div-${questionWithAnswers.id}-${key}`
+                );
+                divForRadio.appendChild(newRadio.finishRadio());
+                divForRadio.appendChild(newRadio.finishLabel());
               }
-            });
+            }
 
             formGroup.appendChild(
-              newRadio.finishDivForRadio(
-                `div-${+questionWithAnswers.id}-${key}`
-              )
+              nextQuestion.finishButton(`next-${questionWithAnswers.id}`)
             );
-
-            divForRadio = document.querySelector(
-              `.div-${+questionWithAnswers.id}-${key}`
+          } else if (+invok == questionWithAnswers.id && side == "next") {
+            newH3AndImg = new CreateH3AndImgTag(
+              questionWithAnswers.id,
+              questionWithAnswers.question,
+              questionWithAnswers.img
             );
-            divForRadio.appendChild(newRadio.finishRadio());
-            divForRadio.appendChild(newRadio.finishLabel());
+            document
+              .querySelector(`.question-${+questionWithAnswers.id - 1}`)
+              .remove();
+            document
+              .querySelector(`.img-${+questionWithAnswers.id - 1}`)
+              .remove();
+            formGroup.prepend(newH3AndImg.finishH3());
+            formGroup.prepend(newH3AndImg.finishImg());
+            for (let [key, value] of Object.entries(questionWithAnswers)) {
+              let newRadio;
+              let divForRadio;
+              if (!(key == "question" || key == "img" || key == "id")) {
+                newRadio = new CreateRadio(
+                  `${+questionWithAnswers.id}-${key}`,
+                  `${+questionWithAnswers.id}-${key}`,
+                  value,
+                  questionWithAnswers.id
+                );
+                arrOfNumbersRadio.forEach((numberRadio) => {
+                  let isSelected = document.querySelector(
+                    `.div-${+questionWithAnswers.id - 1}-${numberRadio}`
+                  );
+                  if (isSelected) {
+                    isSelected.remove();
+                  }
+                });
+
+                formGroup.appendChild(
+                  newRadio.finishDivForRadio(
+                    `div-${+questionWithAnswers.id}-${key}`
+                  )
+                );
+
+                divForRadio = document.querySelector(
+                  `.div-${+questionWithAnswers.id}-${key}`
+                );
+                divForRadio.appendChild(newRadio.finishRadio());
+                divForRadio.appendChild(newRadio.finishLabel());
+              }
+            }
+            formGroup.appendChild(
+              nextQuestion.finishButton(`next-${+questionWithAnswers.id}`)
+            );
+            let remuveNextClass = document.querySelector(
+              `.next-${+questionWithAnswers.id}`
+            );
+            remuveNextClass.classList.remove(
+              `next-${+questionWithAnswers.id - 1}`
+            );
+          } else if (+invok == 16 && side == "answer") {
+            if (+invok == +questionWithAnswers.id) {
+              formGroup.innerHTML = "";
+              let myHero = printTheHero(finalyQuestionsArr);
+
+              newH3AndImg = new CreateH3AndImgTag(
+                myHero.id,
+                myHero.name,
+                myHero.img
+              );
+              formGroup.prepend(newH3AndImg.finishImg());
+              formGroup.prepend(newH3AndImg.finishH3());
+              formGroup.appendChild(playAgain.finishButton("start"));
+            }
           }
-        }
-
-        formGroup.appendChild(
-          nextQuestion.finishButton(`next-${+questionWithAnswers.id}`)
-        );
-        let remuveNextClass = document.querySelector(
-          `.next-${+questionWithAnswers.id}`
-        );
-        remuveNextClass.classList.remove(`next-${+questionWithAnswers.id - 1}`);
-        console.log(finalyQuestionsArr);
-      } else if (+invok == 16 && side == "answer") {
-        if (+invok == +questionWithAnswers.id) {
-          formGroup.innerHTML = "";
-          let myHero = printTheHero(finalyQuestionsArr);
-
-          newH3AndImg = new CreateH3AndImgTag(
-            myHero.id,
-            myHero.name,
-            myHero.img
-          );
-          formGroup.prepend(newH3AndImg.finishImg());
-          formGroup.prepend(newH3AndImg.finishH3());
-          formGroup.appendChild(playAgain.finishButton("start"));
-        }
-      }
-    });
-  }
-
-  let nextButton;
-  startButton.addEventListener("click", (e) => {
-    e.preventDefault();
-    createQuiz(startButton.value, "start");
-    redyHeros.map((heroObject) => {
-      if (document.querySelector(`.img-${heroObject.id}`)) {
-        document.querySelector(`.img-${heroObject.id}`).remove();
-        document.querySelector(`.question-${heroObject.id}`).remove();
-      }
-    });
-    startButton.remove();
-    answersToQuestions();
-
-    nextButtonClick();
-  });
-  function nextButtonClick() {
-    redyQuestions.forEach((question) => {
-      if (document.querySelector(`.next-${question.id}`)) {
-        nextButton = document.querySelector(`.next-${question.id}`);
+        });
       }
 
-      if (document.getElementsByName(`radio-${question.id}`).checked) {
-        for (let key in question) {
-          if (document.getElementById(`${question.id}-${key}`).checked) {
-            checkIfSelected = document.getElementById(`${question.id}-${key}`);
+      let nextButton;
+      startButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        createQuiz(startButton.value, "start");
+        redyHeros.map((heroObject) => {
+          if (document.querySelector(`.img-${heroObject.id}`)) {
+            document.querySelector(`.img-${heroObject.id}`).remove();
+            document.querySelector(`.question-${heroObject.id}`).remove();
           }
-        }
-      }
-    });
-
-    let nextButtonClassNumber = nextButton.className
-      .split(" ")[2]
-      .split("-")[1];
-    nextButton.addEventListener("click", (e) => {
-      e.preventDefault();
-      if (nextButtonClassNumber == 16) {
-        createQuiz(nextButtonClassNumber, "answer");
+        });
+        startButton.remove();
         answersToQuestions();
-      } else {
-        createQuiz(++nextButtonClassNumber, "next");
-        answersToQuestions();
-      }
-    });
-  }
 
-  function answersToQuestions() {
-    let selectedRadio;
-    let isSelectedRadio;
-    redyQuestions.forEach((question) => {
-      if (document.querySelector(`.next-${question.id}`)) {
-        nextButton = document.querySelector(`.next-${question.id}`);
-        isSelectedRadio = document.getElementsByName(`radio-${question.id}`);
-        // If radio cheked then enable next button
-        nextButton.disabled = true;
-        isSelectedRadio.forEach((radio) =>
-          radio.addEventListener("change", () => (nextButton.disabled = false))
-        );
-        nextButton.onclick = function () {
-          for (let key in question) {
-            if (!(key == "question" || key == "img" || key == "id")) {
-              selectedRadio = document.getElementById(`${question.id}-${key}`);
-              if (selectedRadio.checked) {
-                finalyQuestionsArr.push(selectedRadio.value);
+        nextButtonClick();
+      });
+      function nextButtonClick() {
+        redyQuestions.forEach((question) => {
+          if (document.querySelector(`.next-${question.id}`)) {
+            nextButton = document.querySelector(`.next-${question.id}`);
+          }
+
+          if (document.getElementsByName(`radio-${question.id}`).checked) {
+            for (let key in question) {
+              if (document.getElementById(`${question.id}-${key}`).checked) {
+                checkIfSelected = document.getElementById(
+                  `${question.id}-${key}`
+                );
               }
             }
           }
-        };
+        });
+
+        let nextButtonClassNumber = nextButton.className
+          .split(" ")[2]
+          .split("-")[1];
+        nextButton.addEventListener("click", (e) => {
+          e.preventDefault();
+          if (nextButtonClassNumber == 16) {
+            createQuiz(nextButtonClassNumber, "answer");
+            answersToQuestions();
+          } else {
+            createQuiz(++nextButtonClassNumber, "next");
+            answersToQuestions();
+          }
+        });
+      }
+
+      function answersToQuestions() {
+        let selectedRadio;
+        let isSelectedRadio;
+        redyQuestions.forEach((question) => {
+          if (document.querySelector(`.next-${question.id}`)) {
+            nextButton = document.querySelector(`.next-${question.id}`);
+            isSelectedRadio = document.getElementsByName(
+              `radio-${question.id}`
+            );
+            // If radio cheked then enable next button
+            nextButton.disabled = true;
+            isSelectedRadio.forEach((radio) =>
+              radio.addEventListener(
+                "change",
+                () => (nextButton.disabled = false)
+              )
+            );
+            nextButton.onclick = function () {
+              for (let key in question) {
+                if (!(key == "question" || key == "img" || key == "id")) {
+                  selectedRadio = document.getElementById(
+                    `${question.id}-${key}`
+                  );
+                  if (selectedRadio.checked) {
+                    finalyQuestionsArr.push(selectedRadio.value);
+                  }
+                }
+              }
+            };
+          }
+        });
+      }
+
+      function printTheHero(arrayOfAnswers) {
+        let isTrue;
+        let countTrue;
+        let checkLength = 0;
+        let isMale = arrayOfAnswers.some(
+          (answerToQuestion) => answerToQuestion == "2-1"
+        );
+
+        let isFemale = arrayOfAnswers.some(
+          (answerToQuestion) => answerToQuestion == "2-2"
+        );
+        let both = arrayOfAnswers.some(
+          (answerToQuestion) => answerToQuestion == "2-3"
+        );
+        let maleHeros;
+        let femaleHeros;
+        let bothHeros;
+        let theHeroIs = redyHeros.filter((heroObject) => {
+          if (isMale) {
+            maleHeros = heroObject.gender;
+            isTrue = Object.entries(heroObject).map(([key, value]) => {
+              if (
+                Array.isArray(value) &&
+                maleHeros.some((checkIfMale) => checkIfMale == "2-1")
+              ) {
+                return value.some((heroAnswer) =>
+                  arrayOfAnswers.includes(heroAnswer)
+                );
+              } else if (!Array.isArray(value)) {
+                return value;
+              }
+            });
+          } else if (isFemale) {
+            femaleHeros = heroObject.gender;
+            isTrue = Object.entries(heroObject).map(([key, value]) => {
+              if (
+                Array.isArray(value) &&
+                femaleHeros.some((checkIfFemale) => checkIfFemale == "2-2")
+              ) {
+                return value.some((heroAnswer) =>
+                  arrayOfAnswers.includes(heroAnswer)
+                );
+              } else if (!Array.isArray(value)) {
+                return value;
+              }
+            });
+          } else if (both) {
+            bothHeros = heroObject.gender;
+            isTrue = Object.entries(heroObject).map(([key, value]) => {
+              if (
+                Array.isArray(value) &&
+                bothHeros.some((checkIfBoth) => checkIfBoth == "2-2")
+              ) {
+                return value.some((heroAnswer) =>
+                  arrayOfAnswers.includes(heroAnswer)
+                );
+              } else if (!Array.isArray(value)) {
+                return value;
+              }
+            });
+          }
+          countTrue = isTrue.filter((valueBollen) => valueBollen == true)
+            .length;
+          if (countTrue > checkLength) {
+            checkLength = countTrue;
+            return isTrue;
+          }
+        });
+
+        return theHeroIs.slice(-1)[0];
       }
     });
-  }
-
-  function printTheHero(arrayOfAnswers) {
-    let isTrue;
-    let countTrue;
-    let checkLength = 0;
-    let isMale = arrayOfAnswers.some(
-      (answerToQuestion) => answerToQuestion == "2-1"
-    );
-
-    let isFemale = arrayOfAnswers.some(
-      (answerToQuestion) => answerToQuestion == "2-2"
-    );
-    let both = arrayOfAnswers.some(
-      (answerToQuestion) => answerToQuestion == "2-3"
-    );
-    let maleHeros;
-    let femaleHeros;
-    let bothHeros;
-    let theHeroIs = redyHeros.filter((heroObject) => {
-      if (isMale) {
-        maleHeros = heroObject.gender;
-        isTrue = Object.entries(heroObject).map(([key, value]) => {
-          if (
-            Array.isArray(value) &&
-            maleHeros.some((checkIfMale) => checkIfMale == "2-1")
-          ) {
-            return value.some((heroAnswer) =>
-              arrayOfAnswers.includes(heroAnswer)
-            );
-          } else if (!Array.isArray(value)) {
-            return value;
-          }
-        });
-      } else if (isFemale) {
-        femaleHeros = heroObject.gender;
-        isTrue = Object.entries(heroObject).map(([key, value]) => {
-          if (
-            Array.isArray(value) &&
-            femaleHeros.some((checkIfFemale) => checkIfFemale == "2-2")
-          ) {
-            return value.some((heroAnswer) =>
-              arrayOfAnswers.includes(heroAnswer)
-            );
-          } else if (!Array.isArray(value)) {
-            return value;
-          }
-        });
-      } else if (both) {
-        bothHeros = heroObject.gender;
-        isTrue = Object.entries(heroObject).map(([key, value]) => {
-          if (
-            Array.isArray(value) &&
-            bothHeros.some((checkIfBoth) => checkIfBoth == "2-2")
-          ) {
-            return value.some((heroAnswer) =>
-              arrayOfAnswers.includes(heroAnswer)
-            );
-          } else if (!Array.isArray(value)) {
-            return value;
-          }
-        });
-      }
-      countTrue = isTrue.filter((valueBollen) => valueBollen == true).length;
-      if (countTrue > checkLength) {
-        checkLength = countTrue;
-        return isTrue;
-      }
-    });
-    return theHeroIs.slice(-1)[0];
-  }
-  window.addEventListener("DOMContentLoaded", (e) => {});
+  });
 })();
