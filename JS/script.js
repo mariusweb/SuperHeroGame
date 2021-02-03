@@ -28,7 +28,7 @@
     this.label = document.createElement("label");
     this.div = document.createElement("div");
     this.inputClassNameRadio = ["form-check-input"];
-    this.inputClassNameLabel = ["form-check-label"];
+    this.inputClassNameLabel = ["form-check-label", "h3", "p-2"];
     this.divClassName = ["form-check"];
     this.finishRadio = function () {
       this.inputRadio.setAttribute("type", "radio");
@@ -57,13 +57,13 @@
     this.id = id;
     this.question = question;
     this.imageSorc = imageSorc;
-    this.h3 = document.createElement("h3");
+    this.h2 = document.createElement("h2");
     this.img = document.createElement("img");
     this.finishH3 = function () {
-      this.h3.classList.add(`question-${this.id}`);
-      // this.h3.classList.add(`${classNameForTag}`);
-      this.h3.textContent += `${this.question}`;
-      return this.h3;
+      this.h2.classList.add(`question-${this.id}`, `my-3`);
+      // this.h2.classList.add(`${classNameForTag}`);
+      this.h2.textContent += `${this.question}`;
+      return this.h2;
     };
     this.finishImg = function () {
       this.img.classList.add(
@@ -72,7 +72,7 @@
         `rounded`,
         `d-block`,
         `mx-auto`,
-        `w-50`
+        `w-75`
       );
       this.img.setAttribute("src", `${this.imageSorc}`);
       this.img.setAttribute("alt", `${this.id}`);
@@ -124,12 +124,33 @@
   };
 
   let finalyQuestionsArr = [];
+  let mainImageAndQuestion = new CreateH3AndImgTag(
+    "startGame",
+    "Which hero are you?",
+    "./IMG/heros.jpg"
+  );
+  let spinner = document.createElement("div");
+  spinner.classList.add("spinner-border", "text-light", "align-self-center");
+  spinner.innerHTML = `<span class="sr-only">Loading...</span>`;
+  formGroup.appendChild(spinner);
   redyQuestionsNew().then((redyQuestions) => {
     redyHerosNew().then((redyHeros) => {
+      mainImageAndQuestion.finishImg().addEventListener("load", () => {
+        document.querySelector(".spinner-border").remove();
+        formGroup.prepend(mainImageAndQuestion.finishImg());
+        formGroup.prepend(mainImageAndQuestion.finishH3());
+      });
+
       formGroup.appendChild(startTheGame.finishButton("start"));
       let nextQuestion = new ButtonCreate("Next");
       let startButton = document.querySelector(".start");
+
       function createQuiz(invok, side) {
+        window.scroll({
+          top: 0,
+          behavior: "smooth",
+        });
+        formGroup.appendChild(spinner);
         let arrOfNumbersRadio = [1, 2, 3, 4, 5];
 
         redyQuestions.map((questionWithAnswers) => {
@@ -140,9 +161,14 @@
               questionWithAnswers.question,
               questionWithAnswers.img
             );
-            // localStorage.clear();
-            formGroup.prepend(newH3AndImg.finishH3());
-            formGroup.prepend(newH3AndImg.finishImg());
+
+            newH3AndImg.finishImg().addEventListener("load", () => {
+              document.querySelector(".spinner-border").remove();
+              formGroup.prepend(newH3AndImg.finishImg());
+              formGroup.prepend(newH3AndImg.finishH3());
+            });
+            // formGroup.prepend(newH3AndImg.finishImg());
+
             for (let [key, value] of Object.entries(questionWithAnswers)) {
               let newRadio;
               let divForRadio;
@@ -175,14 +201,20 @@
               questionWithAnswers.question,
               questionWithAnswers.img
             );
+
             document
               .querySelector(`.question-${+questionWithAnswers.id - 1}`)
               .remove();
             document
               .querySelector(`.img-${+questionWithAnswers.id - 1}`)
               .remove();
-            formGroup.prepend(newH3AndImg.finishH3());
-            formGroup.prepend(newH3AndImg.finishImg());
+            newH3AndImg.finishImg().addEventListener("load", () => {
+              document.querySelector(".spinner-border").remove();
+              formGroup.prepend(newH3AndImg.finishImg());
+              formGroup.prepend(newH3AndImg.finishH3());
+            });
+            // formGroup.prepend(newH3AndImg.finishImg());
+
             for (let [key, value] of Object.entries(questionWithAnswers)) {
               let newRadio;
               let divForRadio;
@@ -227,6 +259,7 @@
           } else if (+invok == 16 && side == "answer") {
             if (+invok == +questionWithAnswers.id) {
               formGroup.innerHTML = "";
+              formGroup.appendChild(spinner);
               let myHero = printTheHero(finalyQuestionsArr);
 
               newH3AndImg = new CreateH3AndImgTag(
@@ -234,8 +267,11 @@
                 myHero.name,
                 myHero.img
               );
-              formGroup.prepend(newH3AndImg.finishImg());
-              formGroup.prepend(newH3AndImg.finishH3());
+              newH3AndImg.finishImg().addEventListener("load", () => {
+                document.querySelector(".spinner-border").remove();
+                formGroup.prepend(newH3AndImg.finishImg());
+                formGroup.prepend(newH3AndImg.finishH3());
+              });
               formGroup.appendChild(playAgain.finishButton("start"));
             }
           }
@@ -252,6 +288,8 @@
             document.querySelector(`.question-${heroObject.id}`).remove();
           }
         });
+        document.querySelector(".img-startGame").remove();
+        document.querySelector(".question-startGame").remove();
         startButton.remove();
         answersToQuestions();
 

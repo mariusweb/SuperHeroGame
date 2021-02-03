@@ -15,3 +15,30 @@ h5,
 a {
   color: #ffffff;
 }
+.form-check-input {
+  width: 1.2em;
+  height: 1.2em;
+  text-align: center;
+}
+h2 {
+  font-size: 2.7em;
+}
+input[type="radio"] {
+  margin-bottom: 10px;
+  margin-top: 15px;
+}
+/* .form-check {
+  text-align: center;
+} */
+
+.spinner-border {
+  width: 7rem;
+  height: 7rem;
+}
+img {
+  max-height: 500px;
+  object-fit: cover;
+}
+.btn {
+  margin: 20px 0;
+}
