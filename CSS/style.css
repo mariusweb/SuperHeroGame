@@ -27,17 +27,13 @@ input[type="radio"] {
   margin-bottom: 10px;
   margin-top: 15px;
 }
-/* .form-check {
-  text-align: center;
-} */
-
 .spinner-border {
   width: 7rem;
   height: 7rem;
 }
 img {
   max-height: 500px;
-  object-fit: cover;
+  object-fit: contain;
 }
 .btn {
   margin: 20px 0;
