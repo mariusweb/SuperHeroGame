@@ -80,8 +80,7 @@
         `img-thumbnail`,
         `rounded`,
         `d-block`,
-        `mx-auto`,
-        `w-75`
+        `mx-auto`
       );
       this.img.setAttribute("src", `${this.imageSorc}`);
       this.img.setAttribute("alt", `${this.id}`);
